@@ -1,0 +1,342 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Stunning pulsing custom state indicators for Shadow activation button */
+@keyframes glowRed {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(234, 51, 35, 0.4), 0 0 20px rgba(234, 51, 35, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(234, 51, 35, 0.8), 0 0 40px rgba(234, 51, 35, 0.4);
+  }
+}
+
+@keyframes glowBlue {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(33, 78, 245, 0.4), 0 0 20px rgba(33, 78, 245, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(33, 78, 245, 0.8), 0 0 40px rgba(33, 78, 245, 0.4);
+  }
+}
+
+.glow-red {
+  animation: glowRed 2s infinite ease-in-out;
+}
+
+.glow-blue {
+  animation: glowBlue 2s infinite ease-in-out;
+}
+
+/* Custom Scrollbar for premium terminal log */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0c;
+}
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ea3323;
+}
+
+/* Stunning Gemini fluid gradient and glow visuals */
+@keyframes geminiGlow {
+  0% {
+    transform: rotate(0deg) scale(0.96);
+    filter: blur(20px);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.04);
+    filter: blur(28px);
+  }
+  100% {
+    transform: rotate(360deg) scale(0.96);
+    filter: blur(20px);
+  }
+}
+
+@keyframes voiceWave {
+  0%, 100% {
+    transform: scale(0.92);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.55;
+  }
+}
+
+.gemini-glow-idle {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(33, 78, 245, 0.08) 50%, transparent 100%);
+  animation: voiceWave 5s infinite ease-in-out;
+}
+
+.gemini-glow-listening {
+  background: conic-gradient(from 0deg, #214ef5, #a855f7, #ea3323, #f59e0b, #214ef5);
+  animation: geminiGlow 3s infinite linear;
+}
+
+.gemini-glow-processing {
+  background: conic-gradient(from 0deg, #214ef5, #ea3323, #a855f7, #3b82f6, #214ef5);
+  animation: geminiGlow 1.2s infinite linear;
+}
+
+.gemini-glow-speaking {
+  background: conic-gradient(from 0deg, #06b6d4, #6366f1, #d946ef, #06b6d4);
+  animation: geminiGlow 2.5s infinite linear;
+}
+
+@keyframes textPulse {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px rgba(255,255,255,0.2));
+  }
+}
+
+.gemini-text-pulse {
+  animation: textPulse 2s infinite ease-in-out;
+}
+
+/* Accessibility contrast variables mapping */
+:root {
+  --high-contrast-bg: #050508;
+  --high-contrast-panel: rgba(255, 255, 255, 0.05);
+  --high-contrast-border: rgba(255, 255, 255, 0.1);
+  --high-contrast-text-primary: #ffffff;
+  --high-contrast-text-secondary: #9ca3af;
+  --high-contrast-text-accent: #214ef5;
+  --high-contrast-text-urgent: #ea3323;
+}
+
+/* Midnight High-contrast Legibility accessibility overrides */
+.theme-midnight {
+  --high-contrast-bg: #000000;
+  --high-contrast-panel: #05050a;
+  --high-contrast-border: #ffffff;
+  --high-contrast-text-primary: #ffffff;
+  --high-contrast-text-secondary: #f4f4f5;
+  --high-contrast-text-accent: #3b82f6;
+  --high-contrast-text-urgent: #ef4444;
+}
+
+/* Let's write universal selectors when Midnight theme is active to force CSS custom declarations */
+.theme-midnight {
+  background-color: var(--high-contrast-bg) !important;
+  color: var(--high-contrast-text-primary) !important;
+}
+
+/* Make body, app-container, and text layers fully compliant and extremely legible */
+.theme-midnight #shadow-app,
+.theme-midnight main {
+  background-color: var(--high-contrast-bg) !important;
+}
+
+/* Ensure secondary text blocks are high-contrast and very bright white/zinc */
+.theme-midnight p,
+.theme-midnight span,
+.theme-midnight .text-white\/40,
+.theme-midnight .text-white\/30,
+.theme-midnight .text-white\/45,
+.theme-midnight .text-white\/50,
+.theme-midnight .text-white\/60,
+.theme-midnight .text-neutral-300,
+.theme-midnight .text-neutral-400,
+.theme-midnight .text-neutral-500,
+.theme-midnight .text-neutral-600,
+.theme-midnight .text-[#ea3323],
+.theme-midnight .text-[#214ef5] {
+  color: var(--high-contrast-text-secondary) !important;
+  opacity: 1 !important;
+  font-weight: 500 !important;
+}
+
+/* Highlight elements in Midnight Theme to ensure high contrast */
+.theme-midnight h1,
+.theme-midnight h2,
+.theme-midnight h3,
+.theme-midnight h4,
+.theme-midnight h5,
+.theme-midnight .text-white,
+.theme-midnight text,
+.theme-midnight strong {
+  color: var(--high-contrast-text-primary) !important;
+  opacity: 1 !important;
+  font-weight: 700 !important;
+}
+
+/* For panels, force dark solid background and crisp thick white borders */
+.theme-midnight section,
+.theme-midnight .bg-white\/5,
+.theme-midnight .bg-black\/40,
+.theme-midnight .bg-neutral-950\/80,
+.theme-midnight .bg-neutral-900\/30,
+.theme-midnight form,
+.theme-midnight .bg-black\/30 {
+  background-color: var(--high-contrast-panel) !important;
+  border-color: var(--high-contrast-border) !important;
+  border-width: 1.5px !important;
+  border-style: solid !important;
+  opacity: 1 !important;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Force borders inside the accessibility containers to render white or highly visible */
+.theme-midnight .border,
+.theme-midnight .border-white\/10,
+.theme-midnight .border-white\/5,
+.theme-midnight .border-white\/15,
+.theme-midnight .border-t,
+.theme-midnight .border-b {
+  border-color: var(--high-contrast-border) !important;
+  border-width: 1.5px !important;
+}
+
+/* Checkboxes and buttons in high-contrast theme */
+.theme-midnight button,
+.theme-midnight select,
+.theme-midnight input {
+  border-color: var(--high-contrast-border) !important;
+  color: var(--high-contrast-text-primary) !important;
+}
+
+/* Let's clear distracting decorative glow backgrounds to increase legibility further */
+.theme-midnight .absolute.w-72.h-72.opacity-40,
+.theme-midnight .absolute.blur-3xl,
+.theme-midnight .blur-\[130px\] {
+  display: none !important;
+}
+
+/* Dynamic, soft red-glow CSS pulse keyframe effect to instantly isolate overdue tasks */
+@keyframes overduePulse {
+  0%, 100% {
+    border-color: rgba(239, 68, 68, 0.4);
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.15);
+  }
+  50% {
+    border-color: rgba(239, 68, 68, 0.85);
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.45);
+  }
+}
+
+.overdue-pulse {
+  animation: overduePulse 1.8s infinite ease-in-out;
+}
+
+/* Smooth transition for comfort on activation */
+body, #shadow-app, section, div, p, span, button {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.1s ease;
+}
+
+/* Pepsi Royal theme variables */
+:root {
+  --royal-black: #000000;
+  --royal-white: #FFFFFF;
+  --royal-blue: #0000FF;
+  --royal-red: #FF0000;
+}
+
+/* Custom Orb Animations */
+@keyframes orbBreathing {
+  0%, 100% {
+    transform: scale(0.96);
+    box-shadow: 
+      0 0 35px rgba(0, 0, 255, 0.4), 
+      0 0 70px rgba(255, 0, 0, 0.2), 
+      inset 0 0 25px rgba(0, 0, 255, 0.3);
+  }
+  50% {
+    transform: scale(1.04);
+    box-shadow: 
+      0 0 50px rgba(255, 0, 0, 0.5), 
+      0 0 90px rgba(0, 0, 255, 0.3), 
+      inset 0 0 35px rgba(255, 0, 0, 0.4);
+  }
+}
+
+@keyframes orbActiveSwirl {
+  0% {
+    transform: scale(0.98) rotate(0deg);
+    box-shadow: 
+      0 0 45px rgba(255, 255, 255, 0.6), 
+      0 0 80px rgba(0, 0, 255, 0.5), 
+      0 0 100px rgba(255, 0, 0, 0.4),
+      inset 0 0 30px rgba(255, 255, 255, 0.7);
+  }
+  50% {
+    transform: scale(1.08) rotate(180deg);
+    box-shadow: 
+      0 0 65px rgba(255, 255, 255, 0.9), 
+      0 0 100px rgba(255, 0, 0, 0.6), 
+      0 0 120px rgba(0, 0, 255, 0.6),
+      inset 0 0 40px rgba(0, 0, 255, 0.8);
+  }
+  100% {
+    transform: scale(0.98) rotate(360deg);
+    box-shadow: 
+      0 0 45px rgba(255, 255, 255, 0.6), 
+      0 0 80px rgba(0, 0, 255, 0.5), 
+      0 0 100px rgba(255, 0, 0, 0.4),
+      inset 0 0 30px rgba(255, 255, 255, 0.7);
+  }
+}
+
+.orb-idle {
+  animation: orbBreathing 4s infinite ease-in-out;
+  background: radial-gradient(circle at 35% 35%, #0000FF 0%, #3b82f6 40%, #FF0000 85%, #000000 100%);
+}
+
+.orb-active {
+  animation: orbActiveSwirl 2.5s infinite linear;
+  background: conic-gradient(from 0deg, #0000FF, #FF0000, #FFFFFF, #0000FF);
+}
+
+/* Gemini/Google-inspired Pepsi dynamic highlights */
+.pepsi-btn-primary {
+  background: linear-gradient(135deg, #0000FF 0%, #FF0000 100%);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 255, 0.2);
+}
+
+.pepsi-btn-primary:hover {
+  background: linear-gradient(135deg, #FF0000 0%, #0000FF 100%);
+  box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.pepsi-btn-primary:active {
+  transform: translateY(1px);
+}
+
+.pepsi-card {
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pepsi-card:hover {
+  border-color: rgba(0, 0, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 255, 0.1), inset 0 0 12px rgba(255, 0, 0, 0.05);
+}
+
+.pepsi-text-highlight {
+  color: #FFFFFF;
+  text-shadow: 0 0 8px rgba(0, 0, 255, 0.6), 0 0 12px rgba(255, 0, 0, 0.4);
+}
+
+

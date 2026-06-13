@@ -1,0 +1,178 @@
+{
+  "entities": {
+    "user": {
+      "title": "User",
+      "description": "User profile metadata",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "User's display name from provider"
+        },
+        "email": {
+          "type": "string",
+          "description": "Verified user email address"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when user profile was registered"
+        }
+      },
+      "required": ["displayName", "email", "createdAt"]
+    },
+    "task": {
+      "title": "Task",
+      "description": "A personal todo or active organization task",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique task identifier"
+        },
+        "title": {
+          "type": "string",
+          "description": "Summary title of the task"
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed notes on the task"
+        },
+        "category": {
+          "type": "string",
+          "description": "Optional category label (Work, Personal, Urgent, etc.)"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["todo", "in_progress", "done"],
+          "description": "Lifecycle state of the task"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["low", "medium", "high"],
+          "description": "Visual task priority level"
+        },
+        "dueDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Optional deadline for completing the task"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Identity of the user owner"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last modified timestamp"
+        }
+      },
+      "required": ["id", "title", "status", "ownerId", "createdAt", "updatedAt"]
+    },
+    "schedule": {
+      "title": "Schedule",
+      "description": "A scheduled event, task block, or personal meeting",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the schedule event"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the scheduled event"
+        },
+        "description": {
+          "type": "string",
+          "description": "Schedules descriptions or agendas"
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start date time of the event"
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End date time of the event"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "User owner of the schedule event"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last modified timestamp"
+        }
+      },
+      "required": ["id", "title", "startTime", "endTime", "ownerId", "createdAt", "updatedAt"]
+    },
+    "adviceLog": {
+      "title": "AdviceLog",
+      "description": "Advisory logs from interaction or camera object snapshot analysis",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Log ID"
+        },
+        "prompt": {
+          "type": "string",
+          "description": "The command or image query context provided to Shadow"
+        },
+        "response": {
+          "type": "string",
+          "description": "The generated advisory advice or translation response from Shadow"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["voice", "text", "snapshot"],
+          "description": "The category of the interaction"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "User identifier"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "Optional snapshot picture analysed"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Log record timestamp"
+        }
+      },
+      "required": ["id", "prompt", "response", "type", "ownerId", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "user",
+      "description": "Metadata regarding the validated user profile record"
+    },
+    "/users/{userId}/tasks/{taskId}": {
+      "schema": "task",
+      "description": "List of todos and active tasks associated with the user"
+    },
+    "/users/{userId}/schedules/{scheduleId}": {
+      "schema": "schedule",
+      "description": "User schedules, offline-friendly events, and reminders"
+    },
+    "/users/{userId}/advice_logs/{logId}": {
+      "schema": "adviceLog",
+      "description": "History logs of advice, parsed queries, and multimodal snapshot descriptors"
+    }
+  }
+}

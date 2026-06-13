@@ -1,0 +1,109 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Primitive Helpers
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+    
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // --- Entity Validations ---
+    function isValidUser(user) {
+      return user.keys().hasAll(['displayName', 'email', 'createdAt'])
+        && user.keys().size() == 3
+        && user.displayName is string
+        && user.displayName.size() <= 200
+        && user.email is string
+        && user.email.size() <= 200
+        && user.createdAt is string;
+    }
+
+    function isValidTask(task, ownerId) {
+      return task.keys().hasAll(['id', 'title', 'status', 'ownerId', 'createdAt', 'updatedAt'])
+        && task.keys().size() >= 6 && task.keys().size() <= 10
+        && task.id is string
+        && task.title is string
+        && task.title.size() <= 500
+        && task.status in ['todo', 'in_progress', 'done']
+        && task.ownerId == ownerId
+        && task.createdAt is string
+        && task.updatedAt is string
+        && (!task.keys().hasAny(['category']) || (task.category is string && task.category.size() <= 100))
+        && (!task.keys().hasAny(['dueDate']) || (task.dueDate is string && task.dueDate.size() <= 100))
+        && (!task.keys().hasAny(['priority']) || (task.priority in ['low', 'medium', 'high']));
+    }
+
+    function isValidSchedule(schedule, ownerId) {
+      return schedule.keys().hasAll(['id', 'title', 'startTime', 'endTime', 'ownerId', 'createdAt', 'updatedAt'])
+        && (schedule.keys().size() == 7 || (schedule.keys().size() == 8 && schedule.keys().hasAny(['description'])))
+        && schedule.id is string
+        && schedule.title is string
+        && schedule.title.size() <= 500
+        && schedule.startTime is string
+        && schedule.endTime is string
+        && schedule.ownerId == ownerId
+        && schedule.createdAt is string
+        && schedule.updatedAt is string;
+    }
+
+    function isValidAdviceLog(log, ownerId) {
+      return log.keys().hasAll(['id', 'prompt', 'response', 'type', 'ownerId', 'createdAt'])
+        && (log.keys().size() == 6 || (log.keys().size() == 7 && log.keys().hasAny(['imageUrl'])))
+        && log.id is string
+        && log.prompt is string
+        && log.prompt.size() <= 5000
+        && log.response is string
+        && log.response.size() <= 100000
+        && log.type in ['voice', 'text', 'snapshot']
+        && log.ownerId == ownerId
+        && log.createdAt is string;
+    }
+
+    // --- Matches ---
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidId(userId) && isValidUser(request.resource.data);
+      allow update: if isOwner(userId) && isValidId(userId) && isValidUser(request.resource.data) 
+        && request.resource.data.email == resource.data.email;
+      allow delete: if false;
+    }
+
+    match /users/{userId}/tasks/{taskId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidId(taskId) && isValidTask(request.resource.data, userId);
+      allow update: if isOwner(userId) && isValidId(taskId) && isValidTask(request.resource.data, userId)
+        && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if isOwner(userId) && isValidId(taskId);
+    }
+
+    match /users/{userId}/schedules/{scheduleId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidId(scheduleId) && isValidSchedule(request.resource.data, userId);
+      allow update: if isOwner(userId) && isValidId(scheduleId) && isValidSchedule(request.resource.data, userId)
+        && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if isOwner(userId) && isValidId(scheduleId);
+    }
+
+    match /users/{userId}/advice_logs/{logId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidId(logId) && isValidAdviceLog(request.resource.data, userId);
+      allow update: if false;
+      allow delete: if isOwner(userId) && isValidId(logId);
+    }
+  }
+}

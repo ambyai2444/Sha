@@ -1,0 +1,8 @@
+{
+  "name": "SHADOW Assistant Agent",
+  "description": "Voice-Activated Home Assistant Agent designed for accessibility and disability assistance, featuring real-time desktop and phone environment connectivity, Firestore widgets, and continuous listening triggers.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
